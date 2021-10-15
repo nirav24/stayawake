@@ -1,9 +1,7 @@
 name: goreleaser
 
-on:
-  push:
-    tags:
-      - *
+on: push
+
 permissions:
   contents: write
 
@@ -21,6 +19,15 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.17
+
+      -
+        name: install some dependencies
+        run: sudo apt-get update && sudo apt-get install gcc libc6-dev libx11-dev xorg-dev libxtst-dev libpng++-dev xcb libxcb-xkb-dev x11-xkb-utils libx11-xcb-dev libxkbcommon-x11-dev libxkbcommon-dev xsel xclip gcc-multilib gcc-mingw-w64
+
+      -
+        name: Build Binary
+        run: go build .
+
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
